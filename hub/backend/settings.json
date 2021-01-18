@@ -1,0 +1,14 @@
+{
+  "general": {
+    "data_rate": "RF24_2MBPS",
+    "crc_length": "RF24_CRC_16",
+    "address_width": 5,
+    "payload_size": 128
+  },
+  "hub": {
+    "starting_channel":70,
+    "power_level": "RF24_PA_MAX",
+    "ce_pin": 22,
+    "csn_pin": 0
+  }
+}
