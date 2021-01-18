@@ -11,7 +11,12 @@ def _read_config():
 
 def _save_config(values):
     with open("settings.json", mode="wt") as file:
+        print("H")
         return json.dump(values, file)
+
+
+def _generate_device_id():
+    return uuid4().hex
 
 
 def get_gateway():
@@ -30,7 +35,7 @@ def get_gateway():
     radio.payloadSize = config["general"]["payload_size"]
 
     if "gateway_id" not in config["hub"]:
-        config["hub"]["gateway_id"] = uuid4().hex
+        config["hub"]["gateway_id"] = _generate_device_id()
 
     _save_config(config)
 
