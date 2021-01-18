@@ -30,7 +30,7 @@ class Scanner:
 
 if __name__ == "__main__":
     gateway = get_gateway()
-    print(f"Gateway - {gateway.gateway_id.}")
+    print(f"Gateway - {gateway.gateway_id}")
     scanner = Scanner(gateway)
     new_channel = scanner.find_new_channel(10)
     print(f"New channel found {new_channel}")
