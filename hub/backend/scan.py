@@ -23,7 +23,7 @@ class Scanner:
                 if channel not in values:
                     values[channel] = 0
                 values[channel] += self._radio.check_signal()
-
+        print()
         return sorted(tuple(values.items()), key=lambda x: x[1],
                       reverse=True)[0][0]
 
@@ -33,5 +33,6 @@ if __name__ == "__main__":
     print(f"Gateway - {gateway.gateway_id}")
     scanner = Scanner(gateway)
     new_channel = scanner.find_new_channel(10)
+    
     print(f"New channel found {new_channel}")
     gateway.channel = new_channel
