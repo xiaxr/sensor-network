@@ -18,8 +18,8 @@ def get_radio():
     radio.setPALevel(globals()[config["hub"]["power_level"]])
     radio.channel = config["hub"]["starting_channel"]
 
-    radio.setDataRate(globals()[config["hub"]["data_rate"]])
-    radio.setCRCLength(globals()[config["hub"]["crc_length"]])
+    radio.setDataRate(globals()[config["general"]["data_rate"]])
+    radio.setCRCLength(globals()[config["general"]["crc_length"]])
     radio.address_width = config["general"]["address_width"]
     radio.payloadSize = config["general"]["payload_size"]
 
