@@ -29,4 +29,4 @@ class Scanner:
 
 if __name__ == "__main__":
     scanner = Scanner(get_radio())
-    print(scanner.find_new_channel(100))
+    print(scanner.find_new_channel(10))
