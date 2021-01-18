@@ -45,7 +45,7 @@ class Gateway:
 
     @channel.setter
     def channel(self, ch):
-        self._radio = ch
+        self._radio.channel = ch
 
     @property
     def is_pvariant(self):
