@@ -1,4 +1,4 @@
-from .config import get_radio
+from config import get_radio
 
 import time
 
