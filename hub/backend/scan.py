@@ -9,9 +9,13 @@ class Scanner:
 
     def find_new_channel(self, repeats):
         values = {}
-        for _ in range(repeats):
+        for i in range(repeats):            
             for channel in range(self._radio.start_channel,
                                  self._radio.end_channel + 1):
+                print(f"Interation {i+1} of {repeats} -- Channel {channel} of [{self._radio.start_channel}-{self._radio.end_channel + 1}]             \r",
+                  end='',
+                  flush=True)
+
                 self._radio.channel = channel
                 self._radio.start_listening()
                 time.sleep(0.10)
