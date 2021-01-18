@@ -17,3 +17,5 @@ def get_radio():
         raise RuntimeError("radio cannot be initialized")
     radio.address_width = address_width
     return radio
+
+radio = get_radio()
