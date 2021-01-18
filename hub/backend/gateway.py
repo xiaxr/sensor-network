@@ -11,7 +11,6 @@ def _read_config():
 
 def _save_config(values):
     with open("settings.json", mode="wt") as file:
-        print("H")
         return json.dump(values, file)
 
 

@@ -1,5 +1,5 @@
 from time import sleep
-from config import get_gateway
+from gateway import get_gateway
 
 
 class Scanner:
