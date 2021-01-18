@@ -23,7 +23,45 @@ def get_radio():
     radio.address_width = config["general"]["address_width"]
     radio.payloadSize = config["general"]["payload_size"]
 
-    return radio
+    return Gateway(radio, config["general"]["channel_range"])
 
 
-radio = get_radio()
+class Gateway:
+    def __init__(self, radio, channel_range):
+        self._radio = radio
+        self._channel_range = channel_range
+
+    @property
+    def start_channel(self):
+        return self._channel_range[0]
+
+    @property
+    def end_channel(self):
+        return self._channel_range[1]
+
+    @property
+    def channel(self):
+        return self._radio.channel
+
+    @channel.setter
+    def channel(self, ch):
+        self._radio = ch
+
+    @property
+    def is_pvariant(self):
+        return self._radio.isPVariant()
+
+    def check_signal(self):
+        if self.is_pvariant:
+            good_signal = self._radio.testRPD()
+            if self._radio.available():
+                self._radio.read(0, 0)
+            return 1 if good_signal else 0
+        return 0 if self._radio.testCarrier() else 1
+
+    def start_listening(self):
+        self._radio.startListening()
+    
+    def stop_listening(self):
+        self._radio.stopListening()
+    
