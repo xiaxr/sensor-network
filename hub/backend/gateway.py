@@ -1,17 +1,20 @@
 import json
+import os
 from random import randint
 from uuid import uuid4
 
 from RF24 import RF24, RF24_2MBPS, RF24_CRC_16, RF24_PA_MAX
 
+_SETTINGS_DIR = os.path.dirname(__file__)
+
 
 def _read_config():
-    with open("settings.json") as file:
+    with open(os.path.join(_SETTINGS_DIR, "settings.json")) as file:
         return json.load(file)
 
 
 def _save_config(values):
-    with open("settings.json", mode="wt") as file:
+    with open(os.path.join(_SETTINGS_DIR, "settings.json"), mode="wt") as file:
         return json.dump(values, file)
 
 

@@ -1,8 +1,11 @@
 import datetime
+import os
 
 import peewee as pw
 
-device_db = pw.SqliteDatabase("devices.db")
+_DB_DIR = _SETTINGS_DIR = os.path.dirname(__file__)
+
+device_db = pw.SqliteDatabase(os.path.join(_DB_DIR, "devices.db"))
 
 
 class BaseModel(pw.Model):
