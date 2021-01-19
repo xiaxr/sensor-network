@@ -57,7 +57,7 @@ def update_master(gateway):
                 Device.device_address == gateway.gateway_address).count() > 0:
             gateway.regenerate_gateway_address()
 
-        Device(device_id=gateway.device_id,
+        Device(device_id=gateway.gateway_id,
                device_address=gateway.gateway_address,
                device_name="xiaxr hub",
                device_description="xiaxr master sensor hub",
