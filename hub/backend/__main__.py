@@ -20,9 +20,9 @@ def main():
     gateway.start()
 
     print(f"Gateway active on channel {gateway.channel}")
-    print(f"Pipes")
+    print("Pipes")
     for pipe in gateway.children:
-        print(oct(pipe))
+        print(hex(pipe))
 
     while True:
 
