@@ -15,8 +15,8 @@ def main():
     print(f"Gateway {gateway.gateway_id} searching for new channel.")
 
     gateway.stop_listening()
-    channel = find_new_channel(gateway, 10)
-    gateway.channel = channel
+    # channel = find_new_channel(gateway, 10)
+    # gateway.channel = channel
     gateway.start()
 
     print(f"Gateway active on channel {gateway.channel}")

@@ -99,9 +99,10 @@ class Gateway:
         self._parent_node = self._node_address & parent_mask
         i = self._node_address
         m = parent_mask
+        print(m)
         while m:
-            i = i >> 3
-            m = m >> 3
+            i = i // 8 
+            m = m // 8
         self._parent_pipe = i
 
     def pipe_address(self, node, pipe):
