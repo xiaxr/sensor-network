@@ -69,7 +69,7 @@ class Gateway:
         self._parent_node = -1
         self._parent_pipe = 0
         self._node_mask = 0
-        self._pipe_addresses = []
+        self._pipe_addresses = [0] * 6
 
     def start(self):
         retry_var = (((self._node_address % 6) + 1) * 2) + 3
@@ -77,9 +77,9 @@ class Gateway:
         self.setup_address()
         i = 6
         while i:
+            i -= 1
             self._pipe_addresses[i] = self.pipe_address(self._node_address, i)
             self._radio.openReadingPipe(i, self._pipe_addresses[i])
-            i = i - 1
 
         self.start_listening()
 
@@ -95,18 +95,13 @@ class Gateway:
             count += 1
         self._multicast_level = count
         self._node_mask = ~node_mask_check & 0xFFFF
-        
-        print(node_mask_check)
-        print(self._node_mask)
-
         parent_mask = self._node_mask >> 3
         self._parent_node = self._node_address & parent_mask
         i = self._node_address
         m = parent_mask
-        print(m)
         while m:
-            i = i // 8 
-            m = m // 8
+            i >>= 3
+            m >>= 3
         self._parent_pipe = i
 
     def pipe_address(self, node, pipe):
@@ -117,7 +112,7 @@ class Gateway:
         while dec:
             if pipe != 0 or node == 0:
                 out[count] = address_translation[dec % 8]
-            dec = dec // 8
+            dec //= 8
             count += 1
 
         if pipe != 0 or node == 0:
