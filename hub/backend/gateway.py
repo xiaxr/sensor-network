@@ -112,7 +112,7 @@ class Gateway:
         while dec:
             if pipe != 0 or node == 0:
                 out[count] = address_translation[dec % 8]
-            dec //= 8
+            dec /= 8
             count += 1
 
         if pipe != 0 or node == 0:
@@ -120,7 +120,7 @@ class Gateway:
         else:
             out[1] = address_translation[count - 1]
 
-        return int.from_bytes(out, byteorder='little', signed=False)
+        return int.from_bytes(out, byteorder='big', signed=False)
 
     @property
     def address(self):
@@ -174,3 +174,18 @@ class Gateway:
 
     def stop_listening(self):
         self._radio.stopListening()
+
+
+# 0xccccccccc3
+# 0xcccccccc3c
+# 0xcccccccc33
+# 0xccccccccce
+# 0xcccccccc3e
+# 0xcccccccce3
+
+# E33E3E3E3E000
+# 3E3E3E3E3E000
+# CE3E3E3E3E000
+# 333E3E3E3E000
+# 3C3E3E3E3E000
+# CC3ECCCCCC000
