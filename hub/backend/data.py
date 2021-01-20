@@ -54,7 +54,7 @@ def update_master(gateway):
             gateway.regenerate_gateway_id()
 
         Device(device_id=gateway.gateway_id,
-               device_address=gateway.gateway_address,
+               device_address=str(gateway.address),
                device_name="xiaxr hub",
                device_description="xiaxr master sensor hub",
                is_master=True,
