@@ -94,7 +94,7 @@ class Gateway:
             node_mask_check <<= 3
             count += 1
         self._multicast_level = count
-        self._node_mask = ~node_mask_check
+        self._node_mask = ~node_mask_check & 0xFFFF
         
         print(node_mask_check)
         print(self._node_mask)
