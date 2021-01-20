@@ -7,7 +7,6 @@ from RF24 import RF24, RF24_2MBPS, RF24_CRC_16, RF24_PA_MAX
 
 _SETTINGS_DIR = os.path.dirname(__file__)
 
-
 def _read_config():
     with open(os.path.join(_SETTINGS_DIR, "settings.json")) as file:
         return json.load(file)
@@ -16,7 +15,6 @@ def _read_config():
 def _save_config(values):
     with open(os.path.join(_SETTINGS_DIR, "settings.json"), mode="wt") as file:
         return json.dump(values, file)
-
 
 def _generate_device_id():
     return uuid4().hex
@@ -45,11 +43,12 @@ def get_gateway():
     radio.address_width = config["general"]["address_width"]
     radio.payloadSize = config["general"]["payload_size"]
 
+    radio.enableDynamicPayloads()
+    radio.setAutoAck(1)
+    radio.setAutoAck(0,0)
+
     if "gateway_id" not in config["hub"]:
         config["hub"]["gateway_id"] = _generate_device_id()
-
-    if "gateway_address" not in config["hub"]:
-        config["hub"]["gateway_address"] = _generate_transceiver_address()
 
     _save_config(config)
 
@@ -60,26 +59,82 @@ class Gateway:
     def __init__(self, radio, config):
         self._radio = radio
         self._gateway_id = config["hub"]["gateway_id"]
-        self._gateway_address = config["hub"]["gateway_address"]
         self._channel_range = config["general"]["channel_range"]
         self._config = config
+
+        self._node_address = 0
+        self._multicast_level = 0
+        self._parent_node = -1
+        self._parent_pipe = 0
+        self._node_mask = 0
+        self._pipe_addresses = []        
+
+    def start(self):
+        retry_var = (((self._node_address % 6)+1)*2)+3
+        self._radio.setRetries(retry_var, 5)
+        self.setup_address()
+        i = 6
+        while i:
+            self._pipe_addresses[i] = self.pipe_address(self._node_address, i)
+            self._radio.openReadingPipe(i, self._pipe_addresses[i])
+            i = i -1
+
+        self.start_listening()
 
     @property
     def gateway_id(self):
         return self._gateway_id
 
-    @property
-    def gateway_address(self):
-        return hex(self._gateway_address)
+    def setup_address(self):
+        node_mask_check = 0xFFFF
+        count = 0
+        while self._node_address & node_mask_check:
+            node_mask_check = node_mask_check << 3
+            count += 1
+        self._multicast_level = count
+        self._node_mask = ~node_mask_check
+        parent_mask = self._node_mask >> 3
+        self._parent_node = self._node_address & parent_mask
+        i = self._node_address
+        m = parent_mask
+        while m:
+            i = i>>3
+            m = m >>3
+        self._parent_pipe = i
 
-    def regenerate_gateway_id(self):
+    def pipe_address(self, node, pipe):
+        address_translation = [ 0xc3,0x3c,0x33,0xce,0x3e,0xe3,0xec ]
+        out = bytes([0xCC, 0xCC, 0xCC, 0xCC, 0xCC])
+        count = 1
+        dec = node
+        while dec:
+            if pipe != 0 or node == 0:
+                out[count] = address_translation[dec%8]
+            dec = dec // 8
+            count += 1
+
+        if pipe != 0 or node == 0:
+            out[0] = address_translation[pipe]
+        else:
+            out[1] = address_translation[count-1]
+
+        return int.from_bytes(out,byteorder='little', signed=False )
+
+    @property
+    def address(self):
+        return self._node_address
+    
+    @property
+    def children(self):
+        return self._pipe_addresses
+
+    @property
+    def parent(self):
+        return 0 if  self._node_address == 0 else self._parent_node
+
+   def regenerate_gateway_id(self):
         self._gateway_id = _generate_device_id()
         self._config["hub"]["gateway_id"] = self._gateway_id
-        _save_config(self._config)
-
-    def regenerate_gateway_address(self):
-        self._gateway_address = _generate_transceiver_address()
-        self._config["hub"]["gateway_address"] = self._gateway_address
         _save_config(self._config)
 
     @property
@@ -117,3 +172,5 @@ class Gateway:
 
     def stop_listening(self):
         self._radio.stopListening()
+
+

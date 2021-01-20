@@ -1,6 +1,7 @@
 from .data import init_db, update_master
 from .gateway import get_gateway
 from .scan import find_new_channel
+import time
 
 
 def main():
@@ -11,14 +12,18 @@ def main():
     init_db()
     update_master(gateway)
 
-    print(
-        f"Gateway {gateway.gateway_id} [{gateway.gateway_address}] searching for new channel."
-    )
+    print(f"Gateway {gateway.gateway_id} searching for new channel.")
 
-    gateway.channel = find_new_channel(gateway, 10)
+    gateway.stop_listening()
+    channel = find_new_channel(gateway, 10)
+    gateway.channel = channel
+    gateway.start()
+
     print(f"Gateway active on channel {gateway.channel}")
+    print(f"Pipes {gateway.children}")
 
     while True:
+
         pass
 
 

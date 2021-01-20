@@ -53,10 +53,6 @@ def update_master(gateway):
                 Device.device_id == gateway.gateway_id).count() > 0:
             gateway.regenerate_gateway_id()
 
-        while Device.select().where(
-                Device.device_address == gateway.gateway_address).count() > 0:
-            gateway.regenerate_gateway_address()
-
         Device(device_id=gateway.gateway_id,
                device_address=gateway.gateway_address,
                device_name="xiaxr hub",
