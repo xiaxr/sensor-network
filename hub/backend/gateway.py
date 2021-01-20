@@ -91,10 +91,14 @@ class Gateway:
         node_mask_check = 0xFFFF
         count = 0
         while self._node_address & node_mask_check:
-            node_mask_check = node_mask_check << 3
+            node_mask_check <<= 3
             count += 1
         self._multicast_level = count
         self._node_mask = ~node_mask_check
+        
+        print(node_mask_check)
+        print(self._node_mask)
+
         parent_mask = self._node_mask >> 3
         self._parent_node = self._node_address & parent_mask
         i = self._node_address
