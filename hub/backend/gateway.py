@@ -112,7 +112,7 @@ class Gateway:
         while dec:
             if pipe != 0 or node == 0:
                 out[count] = address_translation[dec % 8]
-            dec /= 8
+            dec //= 8
             count += 1
 
         if pipe != 0 or node == 0:
