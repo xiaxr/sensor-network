@@ -8,6 +8,12 @@ def main():
     print("Starting Gateway...")
     gateway = get_gateway()
 
+    i = 6
+    while i:
+        i -= 1
+        print(gateway.pipe_address(0o4440, i)
+    return
+
     print("Initializing database...")
     init_db()
     update_master(gateway)
