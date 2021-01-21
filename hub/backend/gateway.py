@@ -106,22 +106,19 @@ class Gateway:
 
     def pipe_address(self, node, pipe):
         address_translation = [0xc3, 0x3c, 0x33, 0xce, 0x3e, 0xe3, 0xec]
-        out = list(0xCCCCCCCCCC.to_bytes(8, byteorder='big', signed=False))
+        out = list(0xCCCCCCCCCC000000.to_bytes(8, byteorder='big', signed=False))
         count = 1
         dec = node
         while dec:
             if pipe != 0 or node == 0:
                 out[count] = address_translation[dec % 8]
-                print(hex(address_translation[dec % 8]))
             dec = int(dec/8)
             count += 1
 
         if pipe != 0 or node == 0:
             out[0] = address_translation[pipe]
-            print(hex(address_translation[pipe]))
         else:
             out[1] = address_translation[count - 1]
-            print(hex(address_translation[count-1]))
 
         return int.from_bytes(out, byteorder='big', signed=False)
 
@@ -191,10 +188,3 @@ class Gateway:
 # 333E3E3E3E000
 # 3C3E3E3E3E000
 # CC3ECCCCCC000
-
-# 0XE3C33E3E3E000000
-# 0X3EC33E3E3E000000
-# 0XCEC33E3E3E000000
-# 0X33C33E3E3E000000
-# 0X3CC33E3E3E000000
-# 0XCC3ECCCCCC000
