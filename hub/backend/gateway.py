@@ -185,11 +185,13 @@ class Gateway:
 # CC 3E CC CC CC 0 0 0 
 
 
-# py
+# py -- default
 
-# E3 3E 3E 3E 3E CC CC CC
-# 3E 3E 3E 3E 3E CC CC CC
-# CE 3E 3E 3E 3E CC CC CC
-# 33 3E 3E 3E 3E CC CC CC
-# 3C 3E 3E 3E 3E CC CC CC
-# 0 3E 0 CC CC CC CC CC
+# E3 3E 3E 3E 3E 0 0 0
+# 3E 3E 3E 3E 3E 0 0 0
+# CE 3E 3E 3E 3E 0 0 0
+# 33 3E 3E 3E 3E 0 0 0
+# 3C 3E 3E 3E 3E 0 0 0
+# CC 3E CC CC CC 0 0 0
+
+# py node 0

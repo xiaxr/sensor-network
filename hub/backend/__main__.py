@@ -11,7 +11,7 @@ def main():
     i = 6
     while i:
         i -= 1
-        gateway.pipe_address(0o4444, i)
+        gateway.pipe_address(0, i)
     return
 
     print("Initializing database...")
