@@ -26,7 +26,7 @@ def main():
 
     while True:
         if radio.available():
-            data = radio.read(32)
+            data = radio.read(radio.getPayloadSize())
             print(data)
 
     # print("Starting Gateway...")
