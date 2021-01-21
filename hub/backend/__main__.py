@@ -11,7 +11,8 @@ def main():
 
     print("Initializing database...")
     init_db()
-    new_device_entry(gateway.device.device_id, 0, gateway.device.name, "")
+    gateway.update_device_id(
+        new_device_entry(gateway.device.device_id, 0, gateway.device.name, ""))
 
     # print(f"Gateway {gateway.gateway_id} searching for new channel.")
 

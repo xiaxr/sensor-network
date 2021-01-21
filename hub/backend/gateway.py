@@ -2,7 +2,6 @@ from RF24 import RF24
 
 from .config import (GATEWAY_PA_LEVEL, HUB_NAME, NETWORK_DATA_RATE,
                      GatewayConfiguration)
-from .data import new_device_entry
 from .device import Device
 from .network import Network
 
@@ -27,9 +26,6 @@ class Gateway:
         self._radio.setChannel(self._channel)
         self._radio.setDataRate(NETWORK_DATA_RATE)
         self._radio.setPALevel(GATEWAY_PA_LEVEL)
-        self.update_device_id(
-            new_device_entry(self._device.device_id, self._network.node_id,
-                             self._device.name, self._device.description), )
 
         return self._network.begin()
 
