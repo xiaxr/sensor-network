@@ -32,7 +32,6 @@ def pipe_address(node, pipe):
 
     return int.from_bytes(out, byteorder='big', signed=False)
 
-
 def is_valid_address(node):
     if node in (0o100, 0o10):
         return True
