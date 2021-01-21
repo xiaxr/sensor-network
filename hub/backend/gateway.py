@@ -111,8 +111,8 @@ class Gateway:
         dec = node
         while dec:
             if pipe != 0 or node == 0:
-                out[count] = address_translation[dec % 8]
-            dec //= 8
+                out[count] = address_translation[int(dec) % 8]
+            dec /= 8
             count += 1
 
         if pipe != 0 or node == 0:
@@ -175,30 +175,23 @@ class Gateway:
     def stop_listening(self):
         self._radio.stopListening()
 
-# E3CCCCCCCC -- 0
-# 3ECCCCCCCC
-# CECCCCCCCC
-# 33CCCCCCCC
-# 3CCCCCCCCC
-# C3CCCCCCCC
+# E3CCCCCCCC000 -- -0
+# 3ECCCCCCCC000
+# CECCCCCCCC000
+# 33CCCCCCCC000
+# 3CCCCCCCCC000
+# C3CCCCCCCC000
 
-# E3C33E3E3E
-# 3EC33E3E3E
-# CEC33E3E3E
-# 33C33E3E3E
-# 3CC33E3E3E
-# CC3ECCCCCC
+# E33E3E3E3E000 -- default
+# 3E3E3E3E3E000
+# CE3E3E3E3E000
+# 333E3E3E3E000
+# 3C3E3E3E3E000
+# CC3ECCCCCC000
 
-# C3CCCCCCCC
-# 3CCCCCCCCC
-# 33CCCCCCCC
-# CECCCCCCCC
-# 3ECCCCCCCC
-# E3CCCCCCCC
-
-# E33E3E3E3E -- default
-# 3E3E3E3E3E
-# CE3E3E3E3E
-# 333E3E3E3E
-# 3C3E3E3E3E
-# CC3ECCCCCC
+# 0XE3C33E3E3ECCCC --default
+# 0X3EC33E3E3ECCCC
+# 0XCEC33E3E3ECCCC
+# 0X33C33E3E3ECCCC
+# 0X3CC33E3E3ECCCC
+# 0X3ECCCCCCCCCC
