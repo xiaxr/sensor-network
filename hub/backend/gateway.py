@@ -119,6 +119,9 @@ class Gateway:
             out[0] = address_translation[pipe]
         else:
             out[1] = address_translation[count - 1]
+        
+        for x in out:
+            print(hex(x).upper())
 
         return int.from_bytes(out, byteorder='big', signed=False)
 
@@ -175,31 +178,11 @@ class Gateway:
     def stop_listening(self):
         self._radio.stopListening()
 
-# E3CCCCCCCC000 -- -0
-# 3ECCCCCCCC000
-# CECCCCCCCC000
-# 33CCCCCCCC000
-# 3CCCCCCCCC000
-# C3CCCCCCCC000
+# E3 CC CC CC CC 0 0 0 
+# 3E CC CC CC CC 0 0 0 
+# CE CC CC CC CC 0 0 0 
+# 33 CC CC CC CC 0 0 0 
+# 3C CC CC CC CC 0 0 0 
+# C3 CC CC CC CC 0 0 0
 
-# E33E3E3E3E 000 -- default
-# 3E3E3E3E3E 000
-# CE3E3E3E3E 000
-# 333E3E3E3E 000
-# 3C3E3E3E3E 000
-# CC3ECCCCCC 000
-
-
-# E33E3E3E3E000000
-# 3E3E3E3E3E000000
-# CE3E3E3E3E000000
-# 333E3E3E3E000000
-# 3C3E3E3E3E000000
-# CC3ECCCCCC000000
-
-# E3CCCCCCCC000000
-# 3ECCCCCCCC000000
-# CECCCCCCCC000000 
-# 33CCCCCCCC000000 
-# 3CCCCCCCCC000000 
-# C3CCCCCCCC000000 
+# py
