@@ -80,7 +80,7 @@ class NetworkHeader(NamedTuple):
 
     @classmethod
     def decode(cls, raw_values):
-        return cls(ENCODED_NETWORK_HEADER.unpack(raw_values))
+        return cls(*ENCODED_NETWORK_HEADER.unpack(raw_values))
 
 
 class NetworkFrame:
