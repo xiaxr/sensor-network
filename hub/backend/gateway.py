@@ -120,8 +120,7 @@ class Gateway:
         else:
             out[1] = address_translation[count - 1]
         
-        for x in out:
-            print( ' '.join([f"{x:x}" for x in out]))
+        print( ' '.join([f"{x:x}" for x in out]))
 
         return int.from_bytes(out, byteorder='big', signed=False)
 
