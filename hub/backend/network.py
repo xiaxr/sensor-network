@@ -195,7 +195,7 @@ class Network:
 
             frame_size = self._radio.getDynamicPayloadSize()
             encoded_frame = self._radio.read(frame_size)
-            if len(frame_size) < ENCODED_NETWORK_HEADER.size:
+            if frame_size < ENCODED_NETWORK_HEADER.size:
                 continue
             frame = NetworkFrame.decode(encoded_frame)
             if not (is_valid_address(frame.header.to_node)
