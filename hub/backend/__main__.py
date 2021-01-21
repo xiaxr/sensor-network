@@ -25,6 +25,7 @@ def main():
     radio.startListening()
 
     while True:
+        print(radio.avaliable())
         if radio.available():
             data = radio.read(radio.getPayloadSize())
             print(data)
