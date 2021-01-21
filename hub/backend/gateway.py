@@ -106,7 +106,7 @@ class Gateway:
 
     def pipe_address(self, node, pipe):
         address_translation = [0xc3, 0x3c, 0x33, 0xce, 0x3e, 0xe3, 0xec]
-        out = list(0xCCCCCCCCCC.to_bytes(8, byteorder='little', signed=False))
+        out = list(0xCCCCCCCCCC000000.to_bytes(8, byteorder='big', signed=False))
         count = 1
         dec = node
         while dec:
@@ -120,7 +120,7 @@ class Gateway:
         else:
             out[1] = address_translation[count - 1]
 
-        return int.from_bytes(out, byteorder='little', signed=False)
+        return int.from_bytes(out, byteorder='big', signed=False)
 
     @property
     def address(self):
@@ -189,9 +189,9 @@ class Gateway:
 # 3C3E3E3E3E000
 # CC3ECCCCCC000
 
-# 0XE3C33E3E3E000000
-# 0X3EC33E3E3E000000
-# 0XCEC33E3E3E000000
-# 0X33C33E3E3E000000
-# 0X3CC33E3E3E000000
-# 0XCC3ECCCCCC000000
+# 0X3E3E3EC3E3
+# 0X3E3E3EC33E
+# 0X3E3E3EC3CE
+# 0X3E3E3EC333
+# 0X3E3E3EC33C
+# 0XCCCCCC3ECC
