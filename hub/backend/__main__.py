@@ -27,7 +27,7 @@ def main():
 
     while True:        
         ready, pipe = radio.available_pipe()
-        if read:
+        if ready:
             print(pipe)
             data = radio.read(radio.getDynamicPayloadSize())
             print(data)
