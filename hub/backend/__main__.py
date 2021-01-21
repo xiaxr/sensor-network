@@ -21,6 +21,9 @@ def main():
     gateway.begin()
 
     print(f"Gateway active on channel {gateway.channel}")
+    print("Pipes Open:")
+    for pipe in gateway.pipe_addresses():
+        print(hex(pipe).upper())
 
     while True:
         if gateway.update():

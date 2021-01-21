@@ -172,8 +172,11 @@ class Network:
         return True
 
     @property
-    def node_id(self):
+    def node_address(self):
         return self._node_address
+
+    def pipe_addresses(self):
+        return [pipe_address(self._node_address, i) for i in range(1, 7)]
 
     def update_channel(self, channel):
         self._radio.stopListening()
@@ -202,7 +205,7 @@ class Network:
 
             if frame.header.to_node == self._node_address:
                 if frame.header.message_type == MessageType.Ping:  # ignore auto ack repings
-                    continue                
+                    continue
                 self._frame_stack.append(frame)
             elif frame.header.to_node == 0o100:
                 if self._node_address >> 3:
