@@ -11,6 +11,7 @@ def main():
         raise RuntimeError("cannot access radio")
 
     radio.setChannel(75)
+    radio.enableDynamicPayloads()
 
     for idx, addr in enumerate([
             0x7878787878,
@@ -24,10 +25,11 @@ def main():
 
     radio.startListening()
 
-    while True:
-        print(radio.available())
-        if radio.available():
-            data = radio.read(radio.getPayloadSize())
+    while True:        
+        ready, pipe = radio.available_pipe()
+        if read:
+            print(pipe)
+            data = radio.read(radio.getDynamicPayloadSize())
             print(data)
 
     # print("Starting Gateway...")
