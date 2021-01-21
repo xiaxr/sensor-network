@@ -105,14 +105,14 @@ class Gateway:
         self._parent_pipe = i
 
     def pipe_address(self, node, pipe):
-        address_translation = [0xc3, 0x3c, 0x33, 0xce, 0x3e, 0xe3, 0xec,0x00]
-        out = [0x00, 0x00, 0x00, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC]
+        address_translation = [0xc3, 0x3c, 0x33, 0xce, 0x3e, 0xe3, 0xec]
+        out = [0x00, 0x00, 0xCC, 0xCC, 0xCC, 0xCC, 0xCC]
         count = 1
         dec = node
         while dec:
             if pipe != 0 or node == 0:
-                out[count] = address_translation[int(dec) % 8]
-            dec /= 8
+                out[count] = address_translation[dec % 8]
+            dec = int(dec/8)
             count += 1
 
         if pipe != 0 or node == 0:
