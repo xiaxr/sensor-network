@@ -106,7 +106,7 @@ class Gateway:
 
     def pipe_address(self, node, pipe):
         address_translation = [0xc3, 0x3c, 0x33, 0xce, 0x3e, 0xe3, 0xec]
-        out = list(0xCCCCCCCCCC.to_bytes(8, byteorder='big', signed=False))
+        out = list(0xCCCCCCCCCC0000.to_bytes(8, byteorder='big', signed=False))
         count = 1
         dec = node
         while dec:
@@ -177,11 +177,19 @@ class Gateway:
     def stop_listening(self):
         self._radio.stopListening()
 
-# E3 CC CC CC CC 0 0 0 
-# 3E CC CC CC CC 0 0 0 
-# CE CC CC CC CC 0 0 0 
-# 33 CC CC CC CC 0 0 0 
-# 3C CC CC CC CC 0 0 0 
-# C3 CC CC CC CC 0 0 0
+# E3 3E 3E 3E 3E 0 0 0 
+# 3E 3E 3E 3E 3E 0 0 0 
+# CE 3E 3E 3E 3E 0 0 0 
+# 33 3E 3E 3E 3E 0 0 0 
+# 3C 3E 3E 3E 3E 0 0 0 
+# CC 3E CC CC CC 0 0 0 
+
 
 # py
+
+# E3 3E 3E 3E 3E CC CC CC
+# 3E 3E 3E 3E 3E CC CC CC
+# CE 3E 3E 3E 3E CC CC CC
+# 33 3E 3E 3E 3E CC CC CC
+# 3C 3E 3E 3E 3E CC CC CC
+# 0 3E 0 CC CC CC CC CC
