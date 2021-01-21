@@ -12,6 +12,7 @@ def main():
 
     radio.setChannel(75)
     radio.enableDynamicPayloads()
+    radio.setAutoAck(1)
 
     for idx, addr in enumerate([
             0x7878787878,
