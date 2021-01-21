@@ -120,7 +120,7 @@ class Gateway:
         else:
             out[1] = address_translation[count - 1]
 
-        return int.from_bytes(out, byteorder='big', signed=False)
+        return int.from_bytes(out, byteorder='little', signed=False)
 
     @property
     def address(self):
@@ -189,9 +189,9 @@ class Gateway:
 # 3C3E3E3E3E000
 # CC3ECCCCCC000
 
-# 0XE3C33E3E3ECCCCCC
-# 0X3EC33E3E3ECCCCCC
-# 0XCEC33E3E3ECCCCCC
-# 0X33C33E3E3ECCCCCC
-# 0X3CC33E3E3ECCCCCC
-# 0X3E00CCCCCCCCCC
+# 0XE3C33E3E3E000000
+# 0X3EC33E3E3E000000
+# 0XCEC33E3E3E000000
+# 0X33C33E3E3E000000
+# 0X3CC33E3E3E000000
+# 0XCC3ECCCCCC000000
