@@ -64,6 +64,8 @@ class Gateway:
         return self._network.available
 
     def next(self):
+        self._network.update()
+        
         if not self._network.available:
             return None
 

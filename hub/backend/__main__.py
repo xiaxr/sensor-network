@@ -15,9 +15,7 @@ def main():
     print(f"Gateway active on channel {gateway.channel}")
 
     while True:
-        if gateway.update():
-            while gateway.avaliable:
-                gateway.next()
+        gateway.next()
 
 
 if __name__ == "__main__":
