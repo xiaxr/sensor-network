@@ -139,7 +139,7 @@ class Network:
         self._radio.setRetries(0, 0)
 
         self._radio.openReadingPipe(0, GATEWAY_MASTER_ADDRESS)
-        self._radio.openReadingPipe(1, GATEWAY_BROADCAST_ADDRESS)
+        # self._radio.openReadingPipe(1, GATEWAY_BROADCAST_ADDRESS)
 
         self._radio.startListening()
         return True
@@ -194,7 +194,7 @@ class Network:
         sleep(2 / 1000)
 
         self._radio.openReadingPipe(0, GATEWAY_MASTER_ADDRESS)
-        self._radio.openReadingPipe(1, GATEWAY_BROADCAST_ADDRESS)       
+        # self._radio.openReadingPipe(1, GATEWAY_BROADCAST_ADDRESS)       
         
         self._radio.setAutoAck(0, 1)
         self._radio.startListening()
