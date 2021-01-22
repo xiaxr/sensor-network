@@ -53,8 +53,8 @@ class Gateway:
     def channel(self):
         return self._channel
 
-    def pipe_addresses(self):
-        return self._network.pipe_addresses()
+    # def pipe_addresses(self):
+    #     return self._network.pipe_addresses()
 
     def update(self):
         self._network.update()
