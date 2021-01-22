@@ -63,9 +63,27 @@ def _update_master(device_id, name, description):
                     active_last=datetime.datetime.utcnow())
         return device_id
 
+def _new_generic_device():
+    device_id = generate_device_id()
+    with device_db:
+        while DeviceEntry.select().where(
+                DeviceEntry.device_id == device_id).count() > 0:
+            device_id = generate_device_id()
+        
+        DeviceEntry(device_id=device_id,
+            device_node_id=0xFFFF,
+            device_name="generic",
+            device_description="",
+            active_last=datetime.datetime.utcnow())
+        
+        return device_id
 
 def new_device_entry(device_id, node_id, name, description):
     if node_id == 0:
         return _update_master(device_id, name, description)
+
+    if node_id == 0xFFFF:
+        return _new_generic_device()
+
 
     return device_id

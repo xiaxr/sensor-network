@@ -4,7 +4,9 @@ from .config import (GATEWAY_PA_LEVEL, HUB_NAME, NETWORK_ADDRESS_WIDTH,
                      NETWORK_CRC_LENGTH, NETWORK_DATA_RATE,
                      GatewayConfiguration)
 from .device import Device
-from .network import Network
+from .network import Network, MessageType
+from .data import new_device_entry
+import struct
 
 
 def initialize_gateway():
@@ -53,9 +55,6 @@ class Gateway:
     def channel(self):
         return self._channel
 
-    # def pipe_addresses(self):
-    #     return self._network.pipe_addresses()
-
     def update(self):
         self._network.update()
         return self._network.available
@@ -65,4 +64,24 @@ class Gateway:
         return self._network.available
 
     def next(self):
-        return self._network.read()
+        frame = self._network.read()
+        
+        if frame.message_type == MessageType.RequestDeviceID:
+            self._process_device_request(frame)
+
+        return frame
+
+    def _process_device_request(self, frame):
+        noice_length = frame.value[0]
+        noice = frame.value[1:(noice_length + 1)]
+        device_id = new_device_entry(0, 0xFFFF, "", "")
+        print(f"DeviceID Request from {frame.header.from_node}")
+        print(f"noice {noice.hex()}")
+        print(f"device_id {device_id}")
+
+        self._network.broadcast(
+            frame.encode_response(
+                MessageType.DeviceID,
+                struct.pack(
+                    "<B" + ("B" * len(noice)) + ("B" * (len(device_id) / 2)),
+                    noice_length, *noice, *bytes.fromhex(device_id))))
