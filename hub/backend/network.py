@@ -171,6 +171,9 @@ class Network:
 
             frame_size = self._radio.getDynamicPayloadSize()
             encoded_frame = self._radio.read(frame_size)
+
+            print(encoded_frame.hex())                
+
             if frame_size < ENCODED_NETWORK_HEADER.size:
                 continue
             
@@ -179,7 +182,6 @@ class Network:
                 continue
 
             if frame.header.to_node == self._node_address:
-                print(encoded_frame.hex())                
                 self._frame_stack.append(frame)
 
     def broadcast(self, encoded_frame):
@@ -197,3 +199,6 @@ class Network:
         if self._frame_stack:
             return self._frame_stack.pop()
         return None
+
+
+# 360d 0000 7800 0d 7f3c3b383c3f1e18070707070707070707
