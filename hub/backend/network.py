@@ -173,7 +173,6 @@ class Network:
             encoded_frame = self._radio.read(frame_size)
 
             print(encoded_frame.hex())     
-            sleep(1)           
 
             if frame_size < ENCODED_NETWORK_HEADER.size:
                 continue
