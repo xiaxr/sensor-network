@@ -175,11 +175,11 @@ class Network:
             if frame_size < ENCODED_NETWORK_HEADER.size:
                 continue
             
-            print(encoded_frame.hex())
-
             frame = NetworkFrame.decode(encoded_frame, pipe=pipe)
             if frame.header.from_node == self._node_address or frame.header.to_node == frame.header.from_node:
                 continue
+            
+            print(encoded_frame.hex())
 
             if frame.header.to_node == self._node_address:
                 self._frame_stack.append(frame)
