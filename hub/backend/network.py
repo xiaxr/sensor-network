@@ -201,9 +201,9 @@ class Network:
             if frame_size < ENCODED_NETWORK_HEADER.size:
                 continue
             frame = NetworkFrame.decode(encoded_frame)
-            if frame._header.from_node == 0:
-                continue
-            
+            # if frame._header.from_node == 0:
+            #     continue
+
             # if not (is_valid_address(frame.header.to_node)
             #         and is_valid_address(frame.header.from_node)
             #         ) or frame.header.from_node == self._node_address:
