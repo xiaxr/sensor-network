@@ -164,9 +164,6 @@ class Network:
             if not ready:
                 return
 
-            if pipe != 1:
-                continue
-
             if monotonic() - timeout >= 1:
                 break
 
@@ -178,10 +175,9 @@ class Network:
             frame = NetworkFrame.decode(encoded_frame, pipe=pipe)
             if frame.header.from_node == self._node_address or frame.header.to_node == frame.header.from_node:
                 continue
-            
-            print(encoded_frame.hex())
 
             if frame.header.to_node == self._node_address:
+                print(encoded_frame.hex())                
                 self._frame_stack.append(frame)
 
     def broadcast(self, encoded_frame):
