@@ -63,7 +63,7 @@ class MessageType(IntEnum):
 #     send_pipe: RoutingMode
 #     multicast: bool
 
-ENCODED_NETWORK_HEADER = Struct("!HHB")
+ENCODED_NETWORK_HEADER = Struct("<HHB")
 
 
 class NetworkHeader(NamedTuple):
