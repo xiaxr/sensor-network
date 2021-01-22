@@ -1,6 +1,7 @@
 from RF24 import RF24
 
-from .config import (GATEWAY_PA_LEVEL, HUB_NAME, NETWORK_DATA_RATE,
+from .config import (GATEWAY_PA_LEVEL, HUB_NAME, NETWORK_ADDRESS_WIDTH,
+                     NETWORK_CRC_LENGTH, NETWORK_DATA_RATE,
                      GatewayConfiguration)
 from .device import Device
 from .network import Network
@@ -26,6 +27,8 @@ class Gateway:
         self._radio.setChannel(self._channel)
         self._radio.setDataRate(NETWORK_DATA_RATE)
         self._radio.setPALevel(GATEWAY_PA_LEVEL)
+        self._radio.setCRCLength(NETWORK_CRC_LENGTH)
+        self._radio.setAddressWidth(NETWORK_ADDRESS_WIDTH)
 
         return self._network.begin()
 
@@ -56,7 +59,7 @@ class Gateway:
     def update(self):
         self._network.update()
         return self._network.available
-    
+
     @property
     def avaliable(self):
         return self._network.available

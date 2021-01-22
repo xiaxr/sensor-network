@@ -2,7 +2,7 @@ import json
 import os.path
 from typing import NamedTuple, Optional
 
-from RF24 import RF24_2MBPS, RF24_PA_MAX
+from RF24 import RF24_2MBPS, RF24_PA_MAX, RF24_CRC_16
 
 _SETTINGS_PATH = os.path.dirname(__file__)
 _SETTINGS_FILE = os.path.join(_SETTINGS_PATH, "gateway.json")
@@ -14,6 +14,8 @@ DATABASE_PATH = os.path.join(_SETTINGS_PATH, "hub.db")
 HUB_NAME = "xiaxr hub"
 
 NETWORK_DATA_RATE = RF24_2MBPS
+NETWORK_CRC_LENGTH = RF24_CRC_16
+NETWORK_ADDRESS_WIDTH = 5
 GATEWAY_PA_LEVEL = RF24_PA_MAX
 
 TX_TIMEOUT = 25
@@ -22,6 +24,8 @@ MAX_PAYLOAD_SIZE = 32
 MULTICAST_DELAY_FACTOR = 600 / 0.00000001
 
 DEFAULT_NETWORK_ADDRESS = 0o4444
+
+GATEWAY_MASTER_ADDRESS = 0xDCDCDCDCDC
 
 
 class GatewayConfiguration(NamedTuple):
