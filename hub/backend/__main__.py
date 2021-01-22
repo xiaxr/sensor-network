@@ -17,8 +17,7 @@ def main():
     while True:
         if gateway.update():
             while gateway.avaliable:
-                frame = gateway.next()
-                print(frame)
+                gateway.next()
 
 
 if __name__ == "__main__":

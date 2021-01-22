@@ -64,8 +64,11 @@ class Gateway:
         return self._network.available
 
     def next(self):
+        if not self._network.available:
+            return None
+
         frame = self._network.read()
-        
+        print(frame.message_type)
         if frame.message_type == MessageType.RequestDeviceID:
             self._process_device_request(frame)
 
