@@ -186,6 +186,7 @@ class Network:
         self._radio.openWritingPipe(GATEWAY_BROADCAST_ADDRESS)
         self._radio.writeFast(encoded_frame, True)
         self._radio.txStandBy(TX_TIMEOUT)
+        sleep(2 / 1000)
         self._radio.startListening()
 
     def read(self):
