@@ -164,6 +164,9 @@ class Network:
             if not ready:
                 return
 
+            if pipe != 1:
+                continue
+
             if monotonic() - timeout >= 1:
                 break
 
