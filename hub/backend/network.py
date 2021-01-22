@@ -181,12 +181,10 @@ class Network:
 
     def broadcast(self, encoded_frame):
         self._radio.stopListening()
-        self._radio.setAutoAck(0, 0)
         sleep(2 / 1000)
         self._radio.openWritingPipe(GATEWAY_BROADCAST_ADDRESS)
         self._radio.writeFast(encoded_frame, True)
         self._radio.txStandBy(TX_TIMEOUT)
-        self._radio.setAutoAck(0, 1)
         self._radio.startListening()
 
     def read(self):
