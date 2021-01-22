@@ -70,7 +70,7 @@ class Gateway:
             return None
 
         frame = self._network.read()
-        print(frame.message_type)
+        print(hex(frame.message_type))
         if frame.message_type == MessageType.RequestDeviceID:
             self._process_device_request(frame)
 
