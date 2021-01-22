@@ -105,7 +105,7 @@ class NetworkFrame:
             raw_values[ENCODED_NETWORK_HEADER.size:])
 
     def __repr__(self):
-        return f"NetworkFrame<{self._header.from_node}->{self._header.to_node}[{self._header.message_type}]:{self._value}>"
+        return f"NetworkFrame<{self._header.from_node:o}->{self._header.to_node:o}[{str(self._header.message_type)}]:{self._value}>"
 
 class Network:
     def __init__(self, radio, node_address):
