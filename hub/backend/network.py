@@ -172,7 +172,7 @@ class Network:
             if frame_size < ENCODED_NETWORK_HEADER.size:
                 continue
             
-            print(hex(encoded_frame))
+            print(encoded_frame.hex())
 
             frame = NetworkFrame.decode(encoded_frame, pipe=pipe)
             if frame.header.from_node == self._node_address or frame.header.to_node == frame.header.from_node:
