@@ -160,7 +160,7 @@ class Network:
         timeout = monotonic()
 
         while True:
-            pipe, ready = self._radio.available()
+            pipe, ready = self._radio.availablePipe()
             if not ready:
                 return
 
