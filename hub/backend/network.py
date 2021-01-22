@@ -135,7 +135,9 @@ class Network:
         self._radio.setAutoAck(1)
         self._radio.setAutoAck(1, 0)  # disable auto auto ack on multicast pipe
         self._radio.enableDynamicPayloads()
-        self._radio.setRetries(5, 5)
+        
+        self._radio.setRetries(0, 0)
+
         self._radio.openReadingPipe(0, GATEWAY_MASTER_ADDRESS)
         self._radio.openReadingPipe(1, GATEWAY_BROADCAST_ADDRESS)
 
