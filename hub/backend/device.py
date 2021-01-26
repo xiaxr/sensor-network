@@ -1,9 +1,15 @@
+from enum import IntEnum
 from typing import NamedTuple, Optional
 from uuid import uuid4
 
 
 def generate_device_id():
     return uuid4().hex
+
+
+class DeviceType(IntEnum):
+    Gateway = 0x00
+    Generic = 0xFF
 
 
 class DeviceAddress(NamedTuple):
