@@ -37,46 +37,19 @@ constexpr uint8_t bcm2835_byte_reverse_table[] = {
     0x27, 0xa7, 0x67, 0xe7, 0x17, 0x97, 0x57, 0xd7, 0x37, 0xb7, 0x77, 0xf7,
     0x0f, 0x8f, 0x4f, 0xcf, 0x2f, 0xaf, 0x6f, 0xef, 0x1f, 0x9f, 0x5f, 0xdf,
     0x3f, 0xbf, 0x7f, 0xff};
-} // namespace
+}  // namespace
 
 namespace xiaxr {
 namespace bcm2835 {
-uint8_t spi::correct_order(const uint8_t b) {
+namespace impl {
+uint8_t spi_impl::correct_order(const uint8_t b) {
   return (bit_order_ == BCM2835_SPI_BIT_ORDER_LSBFIRST)
              ? bcm2835_byte_reverse_table[b]
              : b;
 }
 
-bool spi::begin() {
-  /* Set the SPI0 pins to the Alt 0 function to enable SPI0 access on them */
-  gpio::fsel(RPI_GPIO_P1_26, BCM2835_GPIO_FSEL_ALT0); /* CE1 */
-  gpio::fsel(RPI_GPIO_P1_24, BCM2835_GPIO_FSEL_ALT0); /* CE0 */
-  gpio::fsel(RPI_GPIO_P1_21, BCM2835_GPIO_FSEL_ALT0); /* MISO */
-  gpio::fsel(RPI_GPIO_P1_19, BCM2835_GPIO_FSEL_ALT0); /* MOSI */
-  gpio::fsel(RPI_GPIO_P1_23, BCM2835_GPIO_FSEL_ALT0); /* CLK */
-
-  /* Set the SPI CS register to the some sensible defaults */
-  volatile uint32_t *paddr =
-      BCM2835::bcm2835()->bcm2835_spi0 + BCM2835_SPI0_CS / 4;
-  BCM2835::bcm2835()->peri_write(paddr, 0); /* All 0s */
-
-  /* Clear TX and RX fifos */
-  BCM2835::bcm2835()->peri_write_nb(paddr, BCM2835_SPI0_CS_CLEAR);
-
-  return true;
-}
-
-void spi::end() {
-  /* Set all the SPI0 pins back to input */
-  gpio::fsel(RPI_GPIO_P1_26, BCM2835_GPIO_FSEL_INPT); /* CE1 */
-  gpio::fsel(RPI_GPIO_P1_24, BCM2835_GPIO_FSEL_INPT); /* CE0 */
-  gpio::fsel(RPI_GPIO_P1_21, BCM2835_GPIO_FSEL_INPT); /* MISO */
-  gpio::fsel(RPI_GPIO_P1_19, BCM2835_GPIO_FSEL_INPT); /* MOSI */
-  gpio::fsel(RPI_GPIO_P1_23, BCM2835_GPIO_FSEL_INPT); /* CLK */
-}
-
 /* Writes (and reads) a single byte to SPI */
-uint8_t spi::transfer_(const uint8_t value) {
+uint8_t spi_impl::transfer(const uint8_t value) {
   volatile uint32_t *paddr =
       BCM2835::bcm2835()->bcm2835_spi0 + BCM2835_SPI0_CS / 4;
   volatile uint32_t *fifo =
@@ -118,7 +91,7 @@ uint8_t spi::transfer_(const uint8_t value) {
 }
 
 /* Writes (and reads) an number of bytes to SPI */
-void spi::transfernb_(char *tbuf, char *rbuf, uint32_t len) {
+void spi_impl::transfernb_(char *tbuf, char *rbuf, uint32_t len) {
   volatile uint32_t *paddr =
       BCM2835::bcm2835()->bcm2835_spi0 + BCM2835_SPI0_CS / 4;
   volatile uint32_t *fifo =
@@ -162,14 +135,14 @@ void spi::transfernb_(char *tbuf, char *rbuf, uint32_t len) {
   /* Set TA = 0, and also set the barrier */
   BCM2835::bcm2835()->peri_set_bits(paddr, 0, BCM2835_SPI0_CS_TA);
 }
+}  // namespace impl
 
 void spi::beginTransaction() {
   pthread_mutex_lock(&spiMutex);
-  setBitOrder(settings.border);
-  setDataMode(settings.dmode);
-  setClockDivider(settings.clck);
+  impl_.set_data_mode(data_mode_);
+  impl_.set_clock_divider(clock_speed_);
 }
 
 void spi::endTransaction() { pthread_mutex_unlock(&spiMutex); }
-} // namespace bcm2835
-} // namespace xiaxr
+}  // namespace bcm2835
+}  // namespace xiaxr

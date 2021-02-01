@@ -100,11 +100,12 @@ typedef enum {
  */
 
 class RF24 {
-private:
+ private:
+  using spi_t = xiaxr::bcm2835::spi;
   static const auto spi_buffer_length = 33;
   using spi_buffer_t = std::vector<uint8_t>;
 
-  SPI spi;
+  spi_t spi;
 
   uint16_t ce_pin;    /**< "Chip Enable" pin, activates the RX or TX role */
   uint16_t csn_pin;   /**< SPI Chip select */
@@ -129,7 +130,7 @@ private:
   }
 
   inline void beginTransaction() {
-    spi.beginTransaction(SPISettings(spi_speed, MSBFIRST, SPI_MODE0));
+    spi.beginTransaction();
     csn(LOW);
   }
 
@@ -138,7 +139,7 @@ private:
     spi.endTransaction();
   }
 
-public:
+ public:
   /**
    * @name Primary public interface
    *
@@ -1597,7 +1598,7 @@ public:
    */
   bool isAckPayloadAvailable() { return available(NULL); }
 
-private:
+ private:
   /**@}*/
   /**
    * @name Low-level internal interface.
