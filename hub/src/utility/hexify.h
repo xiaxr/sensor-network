@@ -1,7 +1,7 @@
 #pragma once
 
-#include <array>
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <iomanip>
@@ -31,7 +31,6 @@ std::array<uint8_t, max_length> unhexify(const std::string &in) {
   }
 
   size_t cnt = std::min(in.length() / 2, max_length);
-  
 
   for (size_t i = 0; cnt > i; ++i) {
     uint32_t s = 0;

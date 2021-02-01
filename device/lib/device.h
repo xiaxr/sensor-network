@@ -20,7 +20,7 @@ constexpr auto default_device_network_address = 04444;
 
 namespace eeprom {
 constexpr auto device_id_offset = 0;
-constexpr auto device_id_length = 16;
+constexpr auto device_id_length = 8;
 
 constexpr auto device_name_length_offset =
     (device_id_offset + device_id_length);
@@ -60,9 +60,9 @@ private:
 };
 
 namespace {
-template <typename T> get_type_flag() { return 0; }
-template <> get_type_flag<float>() { return 1; }
-template <> get_type_flag<double>() { return 1; }
+template <typename T> auto get_type_flag()->uint8_t { return 0; }
+template <> auto get_type_flag<float>() -> uint8_t { return 1; }
+template <> auto get_type_flag<double>() ->uint8_t { return 1; }
 } // namespace
 
 template <typename T> class measurement_t {
@@ -82,8 +82,6 @@ public:
   }
 
   auto send(RF24Network &network, data_t data) -> bool {
-    uint32_t timestamp = millis();
-    payload.copy(&timestamp, timestamp_offset, sizeof(uint32_t));
     payload.copy(&data, data_offset, sizeof(data_t));
     RF24NetworkHeader header(0, EXTERNAL_DATA_TYPE);
     return network.write(header, payload.bytes(), payload_length);
@@ -92,8 +90,8 @@ public:
 private:
   static const auto id_offset = 0;
   static const auto id_length = eeprom::device_id_length;
-  static const auto timestamp_offset = (id_offset + id_length);
-  static const auto message_type_offset = (timestamp_offset + sizeof(uint32_t));
+  static const auto message_type_offset =
+      (id_offset + eeprom::device_id_length);
   static const auto message_length_offset =
       (message_type_offset + sizeof(uint8_t));
   static const auto measurement_id_offset =
@@ -108,7 +106,7 @@ private:
   static const auto data_offset = (measurement_length_offset + sizeof(uint8_t));
   static const auto data_length = 8;
   static const auto payload_length =
-      (id_length + sizeof(uint32_t) + (sizeof(uint8_t) * 6) + data_length);
+      (id_length + (sizeof(uint8_t) * 6) + data_length);
   buffer<payload_length> payload;
 };
 

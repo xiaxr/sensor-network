@@ -27,8 +27,8 @@ int main() {
 
   while (1) {
     gateway.update([]<typename T>(const T &msg) {
-      std::cout << hexify(msg.device_id()) << " " << msg.sequence() << " "
-                << msg.integer_value() << std::endl;
+      std::cout << hexify(msg.device_id()) << " " << msg.integer_value()
+                << std::endl;
     });
     gateway.sleep();
   }

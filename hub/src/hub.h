@@ -27,6 +27,6 @@ constexpr auto default_address = 04444;
 constexpr auto network_delay = 200ms;
 } // namespace network
 
-constexpr auto device_id_length = 16;
+constexpr auto device_id_length = 8;
 using device_id_t = std::array<uint8_t, device_id_length>;
 } // namespace xiaxr

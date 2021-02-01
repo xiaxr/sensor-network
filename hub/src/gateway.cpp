@@ -82,3 +82,14 @@ auto Gateway::power_up() -> void { radio_.powerUp(); }
 auto Gateway::power_down() -> void { radio_.powerDown(); }
 
 } // namespace xiaxr
+
+// #include <iostream>
+// #include <iomanip>
+
+//   std::cout << std::hex << std::setfill('0');
+//   for (int i = 0; i < buffer_size; ++i) {
+//     std::cout << std::setw(2) << std::uppercase
+//               << static_cast<unsigned int>(buffer[i]);
+//   }
+
+// 6E1E67D7 D22C4A010000000000000000101600000040

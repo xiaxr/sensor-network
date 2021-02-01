@@ -5,8 +5,6 @@
 #include <tuple>
 #include <vector>
 
-#include <time.h>
-
 #include "hub.h"
 #include "measurement.h"
 #include "network.h"

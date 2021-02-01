@@ -23,7 +23,6 @@ static inline network_message_t make_network_message(uint8_t *buffer,
 
 struct network_header_t {
   uint8_t device_id[device_id_length];
-  uint32_t sequence;
   uint8_t message_type;
   uint8_t message_length;
 } __attribute__((packed));

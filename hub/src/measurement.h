@@ -60,7 +60,6 @@ public:
   auto is_integer() const -> const bool { return !message_.flags; }
 
   auto device_id() const -> const device_id_t & { return device_id_; }
-  auto sequence() const -> const uint32_t { return header_.sequence; }
   auto ts() const -> const timespec & { return ts_; }
   auto message_type() const -> const MessageID {
     return static_cast<MessageID>(header_.message_type);
