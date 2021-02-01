@@ -1,6 +1,6 @@
 project('xiaxr_hub', 'cpp')
 
-add_project_arguments('-I./RF24X', 
+add_project_arguments('-I./RF24X','-I./utility', 
     '-Wall', 
     '-fPIC', 
 #    '-g',

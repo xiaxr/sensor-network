@@ -7,7 +7,7 @@
 #include <tuple>
 
 #include "config.h"
-#include "hexify.h"
+#include "utility/hexify.h"
 #include "hub.h"
 
 namespace xiaxr {

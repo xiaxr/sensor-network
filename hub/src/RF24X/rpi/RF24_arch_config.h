@@ -36,7 +36,7 @@
 #define IF_SERIAL_DEBUG(x)
 #endif
 
-#define digitalWrite(pin, value) bcm2835_gpio_write(pin, value)
-#define pinMode(pin, value) bcm2835_gpio_fsel(pin, value)
+#define digitalWrite(pin, value) BCM2835::bcm2835()->gpio_write(pin, value)
+#define pinMode(pin, value) BCM2835::bcm2835()->gpio_fsel(pin, value)
 #define OUTPUT BCM2835_GPIO_FSEL_OUTP
 #define INPUT BCM2835_GPIO_FSEL_INPT
