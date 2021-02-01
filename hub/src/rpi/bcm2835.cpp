@@ -26,7 +26,7 @@ http://www.raspberrypi.org/wp-content/uploads/2012/02/BCM2835-ARM-Peripherals.pd
 #include <unistd.h>
 
 #include "bcm2835.h"
-#include "compatibility.h"
+#include "utility/delay.h"
 
 BCM2835 *BCM2835::instance_ = 0;
 

@@ -1,6 +1,6 @@
 project('xiaxr_hub', 'cpp')
 
-add_project_arguments('-I./RF24X','-I./utility', 
+add_project_arguments('-I./rpi', '-I./RF24X','-I./utility', 
     '-Wall', 
     '-fPIC', 
 #    '-g',
@@ -23,10 +23,10 @@ fs_lib =  cpp_compiler.find_library('stdc++fs')
 
 executable('xiaxr_hub', 
     'main.cpp', 'gateway.cpp', 'measurement.cpp', 'device.cpp', 'config.cpp', 
+    'utility/delay.cpp',
     'RF24NetworkX/RF24Network.cpp', 
     'RF24X/RF24.cpp', 
-    'RF24X/rpi/bcm2835.cpp',
-    'RF24X/rpi/interrupt.cpp',
-    'RF24X/rpi/spi.cpp',
-    'RF24X/rpi/compatibility.cpp',
+    'rpi/bcm2835.cpp',
+    'rpi/interrupt.cpp',
+    'rpi/spi.cpp',
     dependencies: [boost_libs, fs_lib, cap_lib, pthread_lib])

@@ -10,7 +10,7 @@
 #include <time.h>
 
 #include "bcm2835.h"
-#include "compatibility.h"
+#include "utility/delay.h"
 #include "gpio.h"
 #include "spi.h"
 

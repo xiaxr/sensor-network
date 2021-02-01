@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "compatibility.h"
+#include "utility/delay.h"
 
 #include "bcm2835.h"
 #include "bcm2835_defs.h"
