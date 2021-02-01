@@ -22,7 +22,7 @@ namespace xiaxr {
 namespace bcm2835 {
 namespace impl {
 class spi_impl {
-public:
+ public:
   spi_impl(uint8_t bit_order) noexcept : bit_order_(bit_order) {}
   ~spi_impl() noexcept {}
 
@@ -82,48 +82,40 @@ public:
   uint8_t transfer(const uint8_t value);
   void transfernb(char *tbuf, char *rbuf, uint32_t len);
 
-private:
+ private:
   uint8_t correct_order(const uint8_t b);
   uint8_t bit_order_;
 };
 
 constexpr auto verify_cs_pin(const uint16_t cs_pin) -> uint16_t {
-  switch (cs_pin) { // Ensure valid hardware CS pin
-  case 0:
-    break;
-  case 1:
-    break;
-  // Allow BCM2835 enums for RPi
-  case 8:
-    return 0;
-    break;
-  case 7:
-    return 1;
-    break;
-  case 18:
-    return 10;
-    break; // to make it work on SPI1
-  case 17:
-    return 11;
-    break;
-  case 16:
-    return 12;
-    break;
-  default:
-    return 0;
-    break;
+  if (cs_pin == 0 || cs_pin == 1) {
+    return cs_pin;
   }
-  return cs_pin;
+  if (cs_pin == 7) {
+    return 1;
+  }
+  if (cs_pin == 18) {
+    return 10;
+  }
+  if (cs_pin == 17) {
+    return 11;
+  }
+  if (cs_pin == 16) {
+    return 12;
+  }
+  return 0;
 }
-} // namespace impl
+}  // namespace impl
 
 class spi {
-public:
+ public:
   spi(uint16_t csn_pin, uint32_t clock_speed,
       uint8_t bit_order = BCM2835_SPI_BIT_ORDER_MSBFIRST,
       uint8_t data_mode = BCM2835_SPI_MODE0)
-      : impl_(bit_order), csn_pin_(impl::verify_cs_pin(csn_pin)),
-        clock_speed_(clock_speed), data_mode_(data_mode) {}
+      : impl_(bit_order),
+        csn_pin_(impl::verify_cs_pin(csn_pin)),
+        clock_speed_(clock_speed),
+        data_mode_(data_mode) {}
   ~spi() {}
 
   void begin() { impl_.begin(); }
@@ -134,7 +126,8 @@ public:
 
   uint8_t transfer(uint8_t _data) { return impl_.transfer(_data); }
 
-  template <typename T, typename R> void transfernb(const T &tbuf, R &rbuf) {
+  template <typename T, typename R>
+  void transfernb(const T &tbuf, R &rbuf) {
     if (tbuf.size() == 1) {
       impl_.transfer(tbuf[0]);
     } else {
@@ -143,11 +136,11 @@ public:
     }
   }
 
-private:
+ private:
   impl::spi_impl impl_;
   uint16_t csn_pin_;
   uint32_t clock_speed_;
   uint8_t data_mode_;
 };
-} // namespace bcm2835
-} // namespace xiaxr
+}  // namespace bcm2835
+}  // namespace xiaxr
