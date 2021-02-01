@@ -131,11 +131,11 @@ class RF24 {
 
   inline void beginTransaction() {
     spi.beginTransaction();
-    csn(LOW);
+    // csn(LOW);
   }
 
   inline void endTransaction() {
-    csn(HIGH);
+    // csn(HIGH);
     spi.endTransaction();
   }
 
@@ -1619,11 +1619,11 @@ class RF24 {
    *
    * @param mode HIGH to take this unit off the SPI bus, LOW to put it on
    */
-  void csn(bool mode) {
-    if (!mode) {
-      spi.chipSelect(csn_pin);
-    }
-  }
+  // void csn(bool mode) {
+  //   if (!mode) {
+  //     spi.chipSelect(csn_pin);
+  //   }
+  // }
 
   /**
    * Set chip enable

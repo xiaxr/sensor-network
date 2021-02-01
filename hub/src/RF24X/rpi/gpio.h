@@ -3,9 +3,10 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "bcm2835_defs.h"
+#include "compatibility.h"
 
 #include "bcm2835.h"
+#include "bcm2835_defs.h"
 
 namespace xiaxr {
 namespace bcm2835 {
@@ -77,6 +78,12 @@ bcm2835FunctionSelect
   static void set_multi(uint32_t mask) {
     volatile uint32_t *paddr =
         BCM2835::bcm2835()->bcm2835_gpio + BCM2835_GPSET0 / 4;
+    BCM2835::bcm2835()->peri_write(paddr, mask);
+  }
+
+  static void clr_multi(uint32_t mask) {
+    volatile uint32_t *paddr =
+        BCM2835::bcm2835()->bcm2835_gpio + BCM2835_GPCLR0 / 4;
     BCM2835::bcm2835()->peri_write(paddr, mask);
   }
 
@@ -415,13 +422,13 @@ bcm2835FunctionSelect
     \param[in] pud The desired Pull-up/down mode. One of BCM2835_GPIO_PUD_* from
     bcm2835PUDControl
   */
-  static void set_pud(uint8_t pin, uint8_t pud) {
+  static void set_pud(uint8_t pin, uint8_t pud_) {
     if (BCM2835::bcm2835()->pud_type_rpi4) {
       int shiftbits = (pin & 0xf) << 1;
       uint32_t bits;
       uint32_t pull;
 
-      switch (pud) {
+      switch (pud_) {
       case BCM2835_GPIO_PUD_OFF:
         pull = 0;
         break;
@@ -445,7 +452,7 @@ bcm2835FunctionSelect
       BCM2835::bcm2835()->peri_write_nb(paddr, bits);
 
     } else {
-      pud(pud);
+      pud(pud_);
       delayMicroseconds(10);
       pudclk(pin, 1);
       delayMicroseconds(10);

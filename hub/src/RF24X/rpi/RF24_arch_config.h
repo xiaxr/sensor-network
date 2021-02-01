@@ -10,8 +10,8 @@
 #include <time.h>
 
 #include "bcm2835.h"
-#include "gpio.h"
 #include "compatibility.h"
+#include "gpio.h"
 #include "spi.h"
 
 #define _SPI spi
@@ -31,7 +31,7 @@
 #define PROGMEM
 #define PRIPSTR "%s"
 
-#define digitalWrite(pin, value) bcm2835::gpio::write(pin, value)
-#define pinMode(pin, value) bcm2835::gpio::fsel(pin, value)
+#define digitalWrite(pin, value) xiaxr::bcm2835::gpio::write(pin, value)
+#define pinMode(pin, value) xiaxr::bcm2835::gpio::fsel(pin, value)
 #define OUTPUT BCM2835_GPIO_FSEL_OUTP
 #define INPUT BCM2835_GPIO_FSEL_INPT

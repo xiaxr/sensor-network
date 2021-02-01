@@ -26,12 +26,10 @@ public:
   static BCM2835 *bcm2835() {
     if (!instance_) {
       instance_ = new BCM2835;
-      instance_.init_();
+      instance_->init();
     }
     return instance_;
   }
-
-  void init();
 
   /*! Reads 32 bit value from a peripheral address WITH a memory barrier before
     and after each read. This is safe, but slow.  The MB before protects this
@@ -127,9 +125,10 @@ private:
   BCM2835(BCM2835 const &) = delete;
   BCM2835 &operator=(BCM2835 const &) = delete;
 
+  void init();
+
   bool has_capability(cap_value_t capability);
 
-  uint8_t correct_order(const uint8_t b);
   bool get_base_size_peripheral(off_t &peripherals_base,
                                 size_t &peripherals_size);
   bool init_ = false;

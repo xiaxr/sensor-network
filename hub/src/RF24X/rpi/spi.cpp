@@ -91,7 +91,7 @@ uint8_t spi_impl::transfer(const uint8_t value) {
 }
 
 /* Writes (and reads) an number of bytes to SPI */
-void spi_impl::transfernb_(char *tbuf, char *rbuf, uint32_t len) {
+void spi_impl::transfernb(char *tbuf, char *rbuf, uint32_t len) {
   volatile uint32_t *paddr =
       BCM2835::bcm2835()->bcm2835_spi0 + BCM2835_SPI0_CS / 4;
   volatile uint32_t *fifo =
@@ -141,6 +141,7 @@ void spi::beginTransaction() {
   pthread_mutex_lock(&spiMutex);
   impl_.set_data_mode(data_mode_);
   impl_.set_clock_divider(clock_speed_);
+  impl_.chip_select(csn_pin_);
 }
 
 void spi::endTransaction() { pthread_mutex_unlock(&spiMutex); }
