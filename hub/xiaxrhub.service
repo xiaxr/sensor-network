@@ -1,9 +1,0 @@
-[Unit]
-Description=Xiaxr Hub Backend Service
-
-[Service]
-Environment=PYTHONUNBUFFERED=1
-ExecStart=/usr/bin/python3 /usr/local/bin/xiaxr/hub/backend
-
-[Install]
-WantedBy=default.target
