@@ -16,7 +16,7 @@ using network_message_t = std::tuple<std::vector<uint8_t>, timespec>;
 static inline network_message_t make_network_message(uint8_t *buffer,
                                                      size_t buffer_size) {
   timespec ts;
-  clock_gettime(CLOCK_REALTIME, &ts);
+  timespec_get(&ts, TIME_UTC);
 
   return {{buffer, buffer + buffer_size}, ts};
 }

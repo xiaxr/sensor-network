@@ -14,6 +14,7 @@
 
 namespace xiaxr {
 using namespace std::chrono_literals;
+
 Gateway::Gateway(const Configuration &config)
     : radio_(config.ce_pin(), config.csn_pin()), network_(radio_),
       device_(config.device_id(), network::gateway_name),
@@ -66,16 +67,7 @@ auto Gateway::queue_incoming_messages() -> void {
   // Clean out frames
   while (!network_.frame_queue.empty()) {
     network_.frame_queue.pop();
-  }
-
-  // debug to test for memory leak
-  if (network_.frameFragmentsCache.size() > 0) {
-    std::cout << network_.frameFragmentsCache.size() << std::endl;
-  }
-}
-
-auto Gateway::sleep() -> void {
-  std::this_thread::sleep_for(network::network_delay);
+  } 
 }
 
 auto Gateway::power_up() -> void { radio_.powerUp(); }

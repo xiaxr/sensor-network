@@ -1,18 +1,24 @@
 #include <cstddef>
 #include <cstdint>
+#include <iomanip>
+#include <sstream>
 #include <time.h>
 #include <vector>
+#include <limits>
+
+#include <time.h>
 
 #include "hub.h"
 #include "measurement.h"
 #include "network.h"
 
-#include <iostream>
+#include "utility/hexify.h"
+#include "utility/format_date.h"
 
 namespace xiaxr {
 Measurement::Measurement(const network_header_t &header, uint8_t *payload,
                          size_t payload_length, const timespec &ts)
-    : device_id_(), header_(header), ts_(ts) {
+    : device_id_(), header_(header), ts_(ts), terminate_(false) {
   if (payload_length < sizeof(measurement_message_t)) {
     value_ = (uint64_t)0;
     return;
@@ -32,7 +38,7 @@ Measurement::Measurement(const network_header_t &header, uint8_t *payload,
     if (is_integer()) {
       value_ = (uint64_t) * reinterpret_cast<uint32_t *>(message_.data);
     } else {
-      value_ = (double)*reinterpret_cast<float *>(message_.data);
+      value_ = (double)(*reinterpret_cast<float *>(message_.data));
     }
     break;
   case 8:
@@ -50,6 +56,18 @@ Measurement::Measurement(const network_header_t &header, uint8_t *payload,
     }
     break;
   }
+}
+
+auto Measurement::as_json() const -> std::string {
+  std::stringstream ss;
+
+  ss << "{\"device_id\": \"" << hexify(device_id_) << std::dec
+     << "\", \"timestamp\": \"" << format_date(ts_) << "\", \"id\": " << (int)id()
+     << ", \"type\": \"" << get_type_str(type())
+     << "\", \"value\": " << std::setprecision(std::numeric_limits<long double>::digits10 + 1) << double_value() << ", \"suffix\": \""
+     << get_unit_suffix(unit()) << "\"}" << std::endl;
+  
+  return ss.str();
 }
 
 } // namespace xiaxr

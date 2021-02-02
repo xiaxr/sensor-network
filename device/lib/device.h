@@ -36,10 +36,14 @@ constexpr auto measurement_message_id = 0x10;
 constexpr auto measurement_type_none = 0x00;
 constexpr auto measurement_type_temperature = 0x01;
 constexpr auto measurement_type_humidity = 0x02;
+constexpr auto measurement_type_pressure = 0x03;
+constexpr auto measurement_type_altitude = 0x04;
 
 constexpr auto measurement_unit_none = 0x00;
 constexpr auto measurement_unit_celsius = 0x01;
 constexpr auto measurement_unit_relative_humidity = 0x10;
+constexpr auto measurement_unit_Pa = 0x20;
+constexpr auto measurement_unit_m = 0x30;
 
 using device_id_t = buffer<eeprom::device_id_length>;
 
@@ -60,9 +64,9 @@ private:
 };
 
 namespace {
-template <typename T> auto get_type_flag()->uint8_t { return 0; }
+template <typename T> auto get_type_flag() -> uint8_t { return 0; }
 template <> auto get_type_flag<float>() -> uint8_t { return 1; }
-template <> auto get_type_flag<double>() ->uint8_t { return 1; }
+template <> auto get_type_flag<double>() -> uint8_t { return 1; }
 } // namespace
 
 template <typename T> class measurement_t {

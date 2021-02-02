@@ -11,11 +11,12 @@ class Configuration {
 public:
   Configuration()
       : device_id_{}, network_channel_{network::default_channel},
-        ce_pin_{network::default_ce_pin}, csn_pin_{network::default_csn_pin} {}
+        ce_pin_{network::default_ce_pin}, csn_pin_{network::default_csn_pin},
+        sensor_log_file_{""} {}
   Configuration(device_id_t device_id, uint8_t network_channel, uint8_t ce_pin,
-                uint8_t csn_pin)
-      : device_id_{device_id},
-        network_channel_{network_channel}, ce_pin_{ce_pin}, csn_pin_{csn_pin} {}
+                uint8_t csn_pin, const std::string &sensor_log_file)
+      : device_id_{device_id}, network_channel_{network_channel},
+        ce_pin_{ce_pin}, csn_pin_{csn_pin}, sensor_log_file_{sensor_log_file} {}
 
   void save();
   void reload();
@@ -33,10 +34,18 @@ public:
   auto csn_pin() -> uint8_t & { return csn_pin_; }
   auto csn_pin() const -> const uint8_t & { return csn_pin_; }
 
+  auto sensor_log_file() -> std::string & { return sensor_log_file_; }
+  auto sensor_log_file() const -> const std::string & {
+    return sensor_log_file_;
+  }
+
 private:
   device_id_t device_id_;
+
   uint8_t network_channel_;
   uint8_t ce_pin_;
   uint8_t csn_pin_;
+
+  std::string sensor_log_file_;
 };
 } // namespace xiaxr

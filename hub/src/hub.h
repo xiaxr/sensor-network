@@ -8,10 +8,10 @@
 #include "RF24NetworkX/RF24Network.h"
 
 namespace xiaxr {
-//static std::string data_log_file("/var/log/xiaxr/data.log");
 
-static std::string settings_path("/etc/xiaxr");
-static std::string settings_file("/etc/xiaxr/hub.json");
+const static std::string settings_path("/etc/xiaxr");
+const static std::string settings_file("/etc/xiaxr/hub.json");
+const static std::string default_sensor_log_file("/var/log/xiaxr/data.log");
 
 namespace network {
 using namespace std::chrono_literals;

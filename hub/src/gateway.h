@@ -17,11 +17,6 @@ namespace xiaxr {
 
 class Gateway {
 public:
-  static Gateway create() {
-    auto config = Configuration::load();
-    return Gateway(config);
-  }
-
   Gateway(const Configuration &config);
 
   auto device_id() -> const device_id_t { return device_.device_id(); }
@@ -40,8 +35,6 @@ public:
       rx_queue_.pop();
     }
   }
-
-  auto sleep() -> void;
 
   auto power_up() -> void;
   auto power_down() -> void;
