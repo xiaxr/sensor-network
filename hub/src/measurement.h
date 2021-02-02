@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <string>
 #include <variant>
 #include <vector>
@@ -117,7 +118,15 @@ public:
     return static_cast<MessageID>(header_.message_type);
   }
 
-  auto is_terminate() const -> const bool { return  terminate_; }
+  auto db_ts() const ->  std::string;
+  auto db_device_id() const ->  int64_t;
+  auto db_id() const -> int;
+  auto db_tag() const -> std::string;
+  auto db_type() const ->  std::string;
+  auto db_unit() const ->  std::string;
+  auto db_value() const ->  double;
+
+  auto is_terminate() const -> const bool { return terminate_; }
 
   auto as_json() const -> std::string;
 

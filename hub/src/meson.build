@@ -19,6 +19,8 @@ cpp_compiler = meson.get_compiler('cpp')
 boost_libs = dependency('boost') 
 pthread_lib = dependency('threads')
 cap_lib = dependency('libcap')
+pqxx_lib = dependency('libpqxx')
+pq_lib = dependency('libpq')
 fs_lib =  cpp_compiler.find_library('stdc++fs')
 
 executable('xiaxr_hub', 
@@ -29,4 +31,4 @@ executable('xiaxr_hub',
     'rpi/bcm2835.cpp',
     'rpi/interrupt.cpp',
     'rpi/spi.cpp',
-    dependencies: [boost_libs, fs_lib, cap_lib, pthread_lib])
+    dependencies: [boost_libs, fs_lib, cap_lib, pthread_lib, pqxx_lib, pq_lib])

@@ -13,6 +13,8 @@
 
 #include <unistd.h>
 
+#include <pqxx/pqxx>
+
 #include "config.h"
 #include "device.h"
 #include "gateway.h"
@@ -30,11 +32,21 @@ std::condition_variable exit_cv;
 std::mutex exit_cv_m;
 
 volatile std::sig_atomic_t signal_status;
+
 } // namespace
 
 void check_root() {
   if (geteuid()) {
     std::cerr << "Xiaxr Hub must be run as root - Exiting" << std::endl;
+    exit(EXIT_FAILURE);
+  }
+}
+
+void check_db() {
+  try {
+    auto x = pqxx::connection(tsdb_connection);
+  } catch (...) {
+    std::cerr << "Xiaxr Hub cannot connect to database - Exiting" << std::endl;
     exit(EXIT_FAILURE);
   }
 }
@@ -54,13 +66,26 @@ void print(std::string x) {
 
 void process_measurement(const Configuration &config,
                          SyncQueue<Measurement> &q) {
-    while (1) {
+
+  auto conn = pqxx::connection(tsdb_connection);
+
+  conn.prepare("insert_measurement",
+               "INSERT INTO measurements(time, device, measurement_id, tag, "
+               "type, unit, value) VALUES ($1, $2, $3, $4, $5, $6, $7)");
+
+  while (1) {
     auto msg = q.pop();
     if (msg.is_terminate()) {
       return;
     }
 
-    // add -- timeseries poster
+    {
+      pqxx::work w{conn};
+      w.exec_prepared("insert_measurement", msg.db_ts(), msg.db_device_id(),
+                      msg.db_id(), msg.db_tag(), msg.db_type(), msg.db_unit(),
+                      msg.db_value());
+      w.commit();
+    }
 
     print(msg.as_json());
   }
@@ -88,6 +113,8 @@ int main() {
   check_root();
 
   auto config = Configuration::load();
+
+  check_db();
 
   std::signal(SIGINT, handle_signal);
   std::signal(SIGTERM, handle_signal);

@@ -13,6 +13,8 @@ const static std::string settings_path("/etc/xiaxr");
 const static std::string settings_file("/etc/xiaxr/hub.json");
 const static std::string default_sensor_log_file("/var/log/xiaxr/data.log");
 
+const static std::string tsdb_connection("host=localhost port=5432 dbname=xiaxr_hub user=postgres password=ts_pwd connect_timeout=10");
+
 namespace network {
 using namespace std::chrono_literals;
 constexpr auto default_channel = 90;
